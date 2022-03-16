@@ -1,3 +1,4 @@
+import 'package:chatapp3/controllers/authController.dart';
 import 'package:flutter/material.dart';
 
 import 'login_page.dart';
@@ -13,6 +14,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+  AuthController authController = AuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   shape: StadiumBorder()
               ),
               onPressed: () {
+                if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
+                  authController.register(context, emailController.text, passwordController.text);
+                }else{
+                  authController.showError(context, 'Field must be not empty');
+                }
 
               },
               child: Text('SignUp',textScaleFactor: 1.2,),

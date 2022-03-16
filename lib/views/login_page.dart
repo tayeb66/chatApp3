@@ -1,3 +1,4 @@
+import 'package:chatapp3/controllers/authController.dart';
 import 'package:chatapp3/views/signUp_page.dart';
 import 'package:flutter/material.dart';
 
@@ -9,9 +10,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+  AuthController authController = AuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,13 @@ class _LoginPageState extends State<LoginPage> {
               style: TextButton.styleFrom(
                   minimumSize: Size(200, 50), shape: StadiumBorder()),
               onPressed: () {
-
+                if (emailController.text.isNotEmpty &&
+                    passwordController.text.isNotEmpty) {
+                  authController.loginUser(
+                      context, emailController.text, passwordController.text);
+                }else{
+                  authController.showError(context, 'Field must be not empty');
+                }
               },
               child: Text(
                 'Login',
@@ -67,14 +74,30 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 10,
             ),
+            ElevatedButton(
+              style: TextButton.styleFrom(
+                  minimumSize: Size(200, 50), shape: StadiumBorder()),
+              onPressed: () {
+                authController.googleSignIn(context);
+              },
+              child: Text(
+                'Login with google',
+                textScaleFactor: 1.2,
+              ),
+            ),
+            SizedBox(height: 10,),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text('Create a account ? '),
-                TextButton(onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignUpPage()));
-                }, child: Text('SignUp'))
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignUpPage()));
+                    },
+                    child: Text('SignUp'))
               ],
             ),
           ],

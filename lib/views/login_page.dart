@@ -1,6 +1,7 @@
 import 'package:chatapp3/controllers/authController.dart';
 import 'package:chatapp3/views/signUp_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -57,7 +58,8 @@ class _LoginPageState extends State<LoginPage> {
             ElevatedButton(
               style: TextButton.styleFrom(
                   minimumSize: Size(200, 50), shape: StadiumBorder()),
-              onPressed: () {
+              onPressed: () async{
+                SharedPreferences preferences = await SharedPreferences.getInstance();
                 if (emailController.text.isNotEmpty &&
                     passwordController.text.isNotEmpty) {
                   authController.loginUser(
@@ -65,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 }else{
                   authController.showError(context, 'Field must be not empty');
                 }
+                preferences.setString('email', emailController.text);
               },
               child: Text(
                 'Login',

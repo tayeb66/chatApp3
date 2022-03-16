@@ -52,11 +52,11 @@ class AuthController {
 
   void signOut(context) async {
     try {
-      await firebaseAuth.signOut();
-      Navigator.pushAndRemoveUntil(
+      await firebaseAuth.signOut().then((value) => Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => LoginPage()),
-          (route) => false);
+              (route) => false));
+
     } catch (e) {
       showError(context, e);
     }

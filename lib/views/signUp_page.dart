@@ -1,5 +1,6 @@
 import 'package:chatapp3/controllers/authController.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_page.dart';
 
@@ -58,12 +59,14 @@ class _SignUpPageState extends State<SignUpPage> {
                   minimumSize: Size(200, 50),
                   shape: StadiumBorder()
               ),
-              onPressed: () {
+              onPressed: () async{
+                SharedPreferences preferences = await SharedPreferences.getInstance();
                 if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
                   authController.register(context, emailController.text, passwordController.text);
                 }else{
                   authController.showError(context, 'Field must be not empty');
                 }
+                preferences.setString('email', emailController.text);
 
               },
               child: Text('SignUp',textScaleFactor: 1.2,),
